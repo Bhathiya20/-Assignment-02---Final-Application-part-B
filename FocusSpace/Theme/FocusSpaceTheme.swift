@@ -107,6 +107,24 @@ struct VisionOrnamentModifier: ViewModifier {
     }
 }
 
+struct VisionPillModifier: ViewModifier {
+    var isSelected: Bool = false
+    
+    func body(content: Content) -> some View {
+        content
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
+            .background(
+                Capsule()
+                    .fill(isSelected ? FocusSpaceTheme.goldPrimary.opacity(0.18) : Color.white.opacity(0.06))
+                    .overlay(
+                        Capsule()
+                            .stroke(isSelected ? FocusSpaceTheme.goldPrimary.opacity(0.4) : Color.white.opacity(0.1), lineWidth: 1)
+                    )
+            )
+    }
+}
+
 extension View {
     func visionWindowStyle(isMainFocus: Bool = false) -> some View {
         modifier(VisionWindowModifier(isMainFocus: isMainFocus))
@@ -118,5 +136,9 @@ extension View {
     
     func visionOrnamentStyle() -> some View {
         modifier(VisionOrnamentModifier())
+    }
+    
+    func visionPillStyle(isSelected: Bool = false) -> some View {
+        modifier(VisionPillModifier(isSelected: isSelected))
     }
 }
