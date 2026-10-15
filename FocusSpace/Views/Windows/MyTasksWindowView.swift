@@ -116,12 +116,33 @@ struct MyTasksWindowView: View {
             
             // Task List
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(spacing: 10) {
-                    ForEach(displayedTasks) { task in
-                        taskRow(task)
+                if displayedTasks.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: searchKeyword.isEmpty ? "checklist.checked" : "magnifyingglass")
+                            .font(.system(size: 32))
+                            .foregroundColor(FocusSpaceTheme.goldPrimary.opacity(0.6))
+                            .padding(.top, 40)
+                        
+                        Text(searchKeyword.isEmpty ? "All Tasks Completed" : "No Matching Tasks")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text(searchKeyword.isEmpty ? "You have finished everything on your list. Enjoy your focus!" : "Try searching for a different keyword or category.")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.55))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 20)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                } else {
+                    LazyVStack(spacing: 10) {
+                        ForEach(displayedTasks) { task in
+                            taskRow(task)
+                        }
+                    }
+                    .padding(.vertical, 2)
                 }
-                .padding(.vertical, 2)
             }
             .frame(maxHeight: 380)
             
