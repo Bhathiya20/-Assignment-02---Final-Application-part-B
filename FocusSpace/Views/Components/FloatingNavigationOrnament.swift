@@ -2,7 +2,7 @@
 //  FloatingNavigationOrnament.swift
 //  FocusSpace
 //
-//  Created by Rusheni Botheju on 2026-10-16.
+//  Created by Bhathiya on 2026-10-16.
 //
 
 import SwiftUI
@@ -125,7 +125,7 @@ struct FloatingNavigationOrnament: View {
                         .fill(FocusSpaceTheme.emeraldSuccess)
                         .frame(width: 7, height: 7)
                     
-                    Text("LIVE SPATIAL WORKSPACE • SIMULTANEOUS MULTI-WINDOW ARRANGEMENT")
+                    Text("LIVE SPATIAL WORKSPACE â€¢ SIMULTANEOUS MULTI-WINDOW ARRANGEMENT")
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.white.opacity(0.55))
                         .tracking(0.8)
@@ -133,7 +133,7 @@ struct FloatingNavigationOrnament: View {
                 
                 Spacer()
                 
-                Text("Gaze & Pinch Targetable • Drag Grab Bars to Reposition")
+                Text("Gaze & Pinch Targetable â€¢ Drag Grab Bars to Reposition")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(FocusSpaceTheme.goldPrimary.opacity(0.85))
             }

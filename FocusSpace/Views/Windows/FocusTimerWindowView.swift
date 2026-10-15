@@ -2,7 +2,7 @@
 //  FocusTimerWindowView.swift
 //  FocusSpace
 //
-//  Created by Rusheni Botheju on 2026-10-16.
+//  Created by Bhathiya on 2026-10-16.
 //
 
 import SwiftUI
@@ -13,7 +13,7 @@ struct FocusTimerWindowView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 18) {
             // Window Header
-            WindowControlsHeader(windowId: "WINDOW 02 • MAIN") {
+            WindowControlsHeader(windowId: "WINDOW 02 â€¢ MAIN") {
                 HStack(spacing: 6) {
                     Circle()
                         .fill(FocusSpaceTheme.goldPrimary)

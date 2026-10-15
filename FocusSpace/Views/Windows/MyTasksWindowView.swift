@@ -2,7 +2,7 @@
 //  MyTasksWindowView.swift
 //  FocusSpace
 //
-//  Created by Rusheni Botheju on 2026-10-16.
+//  Created by Bhathiya on 2026-10-16.
 //
 
 import SwiftUI
@@ -13,7 +13,7 @@ struct MyTasksWindowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             // Window Header with 3 dots & Add Task button
-            WindowControlsHeader(windowId: "WINDOW 01 • TASKS") {
+            WindowControlsHeader(windowId: "WINDOW 01 â€¢ TASKS") {
                 Button {
                     store.isAddTaskSheetPresented = true
                 } label: {
@@ -201,7 +201,7 @@ struct MyTasksWindowView: View {
                         .font(.system(size: 11, weight: .regular))
                         .foregroundColor(.white.opacity(0.45))
                     
-                    Text("•")
+                    Text("â€¢")
                         .font(.system(size: 11))
                         .foregroundColor(.white.opacity(0.25))
                     

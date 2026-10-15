@@ -2,7 +2,7 @@
 //  SettingsSheet.swift
 //  FocusSpace
 //
-//  Created by Rusheni Botheju on 2026-10-16.
+//  Created by Bhathiya on 2026-10-16.
 //
 
 import SwiftUI
@@ -218,7 +218,7 @@ struct SettingsSheet: View {
                 .visionCardStyle()
                 
                 // About
-                Text("FocusSpace • Version 1.0 • visionOS SwiftUI Native")
+                Text("FocusSpace â€¢ Version 1.0 â€¢ visionOS SwiftUI Native")
                     .font(.system(size: 11, weight: .regular))
                     .foregroundColor(.white.opacity(0.35))
                     .frame(maxWidth: .infinity, alignment: .center)

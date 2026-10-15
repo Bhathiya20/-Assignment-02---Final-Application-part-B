@@ -2,7 +2,7 @@
 //  ProgressAnalyticsWindowView.swift
 //  FocusSpace
 //
-//  Created by Rusheni Botheju on 2026-10-16.
+//  Created by Bhathiya on 2026-10-16.
 //
 
 import SwiftUI
@@ -14,7 +14,7 @@ struct ProgressAnalyticsWindowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             // Window Header
-            WindowControlsHeader(windowId: "WINDOW 03 • PROGRESS") {
+            WindowControlsHeader(windowId: "WINDOW 03 â€¢ PROGRESS") {
                 Text("Swift Charts Native")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.white.opacity(0.5))
