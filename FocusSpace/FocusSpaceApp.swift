@@ -17,6 +17,7 @@ struct FocusSpaceApp: App {
             ContentView()
                 .environment(appModel)
         }
+        .defaultSize(width: 1540, height: 960)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()

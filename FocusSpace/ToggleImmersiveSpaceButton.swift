@@ -21,38 +21,40 @@ struct ToggleImmersiveSpaceButton: View {
                     case .open:
                         appModel.immersiveSpaceState = .inTransition
                         await dismissImmersiveSpace()
-                        // Don't set immersiveSpaceState to .closed because there
-                        // are multiple paths to ImmersiveView.onDisappear().
-                        // Only set .closed in ImmersiveView.onDisappear().
-
                     case .closed:
                         appModel.immersiveSpaceState = .inTransition
                         switch await openImmersiveSpace(id: appModel.immersiveSpaceID) {
                             case .opened:
-                                // Don't set immersiveSpaceState to .open because there
-                                // may be multiple paths to ImmersiveView.onAppear().
-                                // Only set .open in ImmersiveView.onAppear().
                                 break
-
                             case .userCancelled, .error:
-                                // On error, we need to mark the immersive space
-                                // as closed because it failed to open.
                                 fallthrough
                             @unknown default:
-                                // On unknown response, assume space did not open.
                                 appModel.immersiveSpaceState = .closed
                         }
-
                     case .inTransition:
-                        // This case should not ever happen because button is disabled for this case.
                         break
                 }
             }
         } label: {
-            Text(appModel.immersiveSpaceState == .open ? "Hide Immersive Space" : "Show Immersive Space")
+            HStack(spacing: 6) {
+                Image(systemName: appModel.immersiveSpaceState == .open ? "mountain.2.fill" : "visionpro")
+                    .font(.system(size: 12, weight: .semibold))
+                Text(appModel.immersiveSpaceState == .open ? "Exit Immersion" : "Immersive Space")
+                    .font(.system(size: 11, weight: .semibold))
+            }
+            .foregroundColor(appModel.immersiveSpaceState == .open ? FocusSpaceTheme.charcoal900 : .white.opacity(0.85))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background {
+                if appModel.immersiveSpaceState == .open {
+                    Capsule().fill(FocusSpaceTheme.emeraldSuccess)
+                } else {
+                    Capsule().fill(Color.white.opacity(0.1))
+                }
+            }
         }
+        .buttonStyle(.plain)
         .disabled(appModel.immersiveSpaceState == .inTransition)
-        .animation(.none, value: 0)
-        .fontWeight(.semibold)
+        .hoverEffect()
     }
 }
