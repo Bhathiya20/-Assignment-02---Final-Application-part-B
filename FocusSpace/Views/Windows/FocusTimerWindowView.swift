@@ -228,6 +228,34 @@ struct FocusTimerWindowView: View {
                 .hoverEffect()
             }
             
+            // Ambient Soundscape Indicator
+            HStack(spacing: 8) {
+                Image(systemName: "waveform")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(FocusSpaceTheme.goldPrimary)
+                
+                Text("Soundscape:")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.6))
+                
+                Text("Deep Focus Rain")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                Image(systemName: "speaker.wave.2.fill")
+                    .font(.system(size: 11))
+                    .foregroundColor(FocusSpaceTheme.goldPrimary.opacity(0.85))
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
+            .background(
+                Capsule()
+                    .fill(Color.white.opacity(0.04))
+                    .overlay(Capsule().stroke(Color.white.opacity(0.08), lineWidth: 1))
+            )
+            
             Spacer(minLength: 0)
             
             // Spatial Floating Ornament Attached to Center Window
