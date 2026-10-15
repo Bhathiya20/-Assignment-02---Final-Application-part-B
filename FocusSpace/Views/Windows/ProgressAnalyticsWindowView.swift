@@ -10,11 +10,12 @@ import Charts
 
 struct ProgressAnalyticsWindowView: View {
     @Bindable var store: FocusSpaceStore
+    @State private var selectedTimeRange: String = "Week"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             // Window Header
-            WindowControlsHeader(windowId: "WINDOW 03 â€¢ PROGRESS") {
+            WindowControlsHeader(windowId: "WINDOW 03 • PROGRESS") {
                 Text("Swift Charts Native")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.white.opacity(0.5))
@@ -61,13 +62,38 @@ struct ProgressAnalyticsWindowView: View {
             // Weekly Activity Bar Chart Card
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("Weekly Focus Hours")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.85))
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Focus Activity")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.85))
+                    }
                     
                     Spacer()
                     
-                    Text("Today : \(String(format: "%.2f", store.todayFocusHours))h")
+                    // Time Range Selector
+                    HStack(spacing: 4) {
+                        ForEach(["Week", "Month"], id: \.self) { range in
+                            Button {
+                                selectedTimeRange = range
+                            } label: {
+                                Text(range)
+                                    .font(.system(size: 10, weight: selectedTimeRange == range ? .bold : .medium))
+                                    .foregroundColor(selectedTimeRange == range ? FocusSpaceTheme.charcoal900 : .white.opacity(0.6))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background {
+                                        if selectedTimeRange == range {
+                                            Capsule().fill(FocusSpaceTheme.goldPrimary)
+                                        }
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(2)
+                    .background(Capsule().fill(Color.white.opacity(0.06)))
+                    
+                    Text("Today: \(String(format: "%.1f", store.todayFocusHours))h")
                         .font(.system(size: 11, weight: .semibold, design: .monospaced))
                         .foregroundColor(FocusSpaceTheme.goldPrimary)
                 }

@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MyTasksWindowView: View {
     @Bindable var store: FocusSpaceStore
+    @State private var searchKeyword: String = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             // Window Header with 3 dots & Add Task button
-            WindowControlsHeader(windowId: "WINDOW 01 â€¢ TASKS") {
+            WindowControlsHeader(windowId: "WINDOW 01 • TASKS") {
                 Button {
                     store.isAddTaskSheetPresented = true
                 } label: {
@@ -42,6 +43,36 @@ struct MyTasksWindowView: View {
                     .font(.system(size: 12, weight: .regular))
                     .foregroundColor(.white.opacity(0.6))
             }
+            
+            // Search Input
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.45))
+                
+                TextField("Search tasks...", text: $searchKeyword)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 12))
+                    .foregroundColor(.white)
+                
+                if !searchKeyword.isEmpty {
+                    Button {
+                        searchKeyword = ""
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 11))
+                            .foregroundColor(.white.opacity(0.4))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white.opacity(0.06))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            )
             
             // Task Progress Summary Card
             VStack(spacing: 8) {
@@ -85,12 +116,33 @@ struct MyTasksWindowView: View {
             
             // Task List
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(spacing: 10) {
-                    ForEach(store.filteredTasks) { task in
-                        taskRow(task)
+                if displayedTasks.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: searchKeyword.isEmpty ? "checklist.checked" : "magnifyingglass")
+                            .font(.system(size: 32))
+                            .foregroundColor(FocusSpaceTheme.goldPrimary.opacity(0.6))
+                            .padding(.top, 40)
+                        
+                        Text(searchKeyword.isEmpty ? "All Tasks Completed" : "No Matching Tasks")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text(searchKeyword.isEmpty ? "You have finished everything on your list. Enjoy your focus!" : "Try searching for a different keyword or category.")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.55))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 20)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                } else {
+                    LazyVStack(spacing: 10) {
+                        ForEach(displayedTasks) { task in
+                            taskRow(task)
+                        }
+                    }
+                    .padding(.vertical, 2)
                 }
-                .padding(.vertical, 2)
             }
             .frame(maxHeight: 380)
             
@@ -201,7 +253,7 @@ struct MyTasksWindowView: View {
                         .font(.system(size: 11, weight: .regular))
                         .foregroundColor(.white.opacity(0.45))
                     
-                    Text("â€¢")
+                    Text("•")
                         .font(.system(size: 11))
                         .foregroundColor(.white.opacity(0.25))
                     
@@ -244,5 +296,15 @@ struct MyTasksWindowView: View {
             }
         }
         .hoverEffect()
+    }
+    
+    // MARK: - Computed Properties
+    private var displayedTasks: [TaskItem] {
+        let base = store.filteredTasks
+        let query = searchKeyword.trimmingCharacters(in: .whitespacesAndNewlines)
+        if query.isEmpty {
+            return base
+        }
+        return base.filter { $0.title.localizedCaseInsensitiveContains(query) || $0.category.localizedCaseInsensitiveContains(query) }
     }
 }

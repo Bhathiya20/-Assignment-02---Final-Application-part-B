@@ -72,15 +72,54 @@ struct DashboardOverviewView: View {
                     Divider().background(Color.white.opacity(0.1))
                 }
                 
-                // Welcome Section
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Ready to focus, Alex?")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
+                // Welcome Section with Daily Target Bar
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Ready to focus, Alex?")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.white)
+                            
+                            Text("Your workspace is ready. Pick up where you left off.")
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundColor(.white.opacity(0.6))
+                        }
+                        
+                        Spacer()
+                        
+                        // Daily Goal Pill
+                        VStack(alignment: .trailing, spacing: 3) {
+                            Text("DAILY GOAL")
+                                .font(.system(size: 9, weight: .bold))
+                                .foregroundColor(FocusSpaceTheme.goldPrimary)
+                                .tracking(1)
+                            
+                            Text("\(String(format: "%.1f", store.todayFocusHours)) / 3.0h")
+                                .font(.system(size: 13, weight: .bold, design: .monospaced))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white.opacity(0.05))
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                        )
+                    }
                     
-                    Text("Your workspace is ready. Pick up where you left off.")
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(.white.opacity(0.6))
+                    // Daily Target Progress Bar
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.white.opacity(0.08))
+                                .frame(height: 6)
+                            
+                            Capsule()
+                                .fill(FocusSpaceTheme.goldGradient)
+                                .frame(width: max(geo.size.width * CGFloat(min(store.todayFocusHours / 3.0, 1.0)), 6), height: 6)
+                        }
+                    }
+                    .frame(height: 6)
                 }
                 
                 // 3 Hero Statistic Cards

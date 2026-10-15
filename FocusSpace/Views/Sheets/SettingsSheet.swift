@@ -170,6 +170,20 @@ struct SettingsSheet: View {
                     }
                 }
                 
+                // Spatial Layout Arrangement
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("SPATIAL WINDOW ARRANGEMENT")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(FocusSpaceTheme.goldPrimary)
+                        .tracking(1)
+                    
+                    HStack(spacing: 8) {
+                        layoutCard(name: "Triple Space", icon: "square.split.3x1.fill", isSelected: true)
+                        layoutCard(name: "Center Focus", icon: "square.fill", isSelected: false)
+                        layoutCard(name: "Compact", icon: "rectangle.compress.vertical", isSelected: false)
+                    }
+                }
+                
                 // Local SwiftData Storage Card
                 VStack(alignment: .leading, spacing: 10) {
                     Text("LOCAL SWIFTDATA STORAGE")
@@ -218,7 +232,7 @@ struct SettingsSheet: View {
                 .visionCardStyle()
                 
                 // About
-                Text("FocusSpace â€¢ Version 1.0 â€¢ visionOS SwiftUI Native")
+                Text("FocusSpace • Version 1.0 • visionOS SwiftUI Native")
                     .font(.system(size: 11, weight: .regular))
                     .foregroundColor(.white.opacity(0.35))
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -229,5 +243,28 @@ struct SettingsSheet: View {
         }
         .frame(width: 480, height: 620)
         .visionWindowStyle()
+    }
+    
+    @ViewBuilder
+    private func layoutCard(name: String, icon: String, isSelected: Bool) -> some View {
+        VStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.system(size: 16, weight: isSelected ? .bold : .medium))
+                .foregroundColor(isSelected ? FocusSpaceTheme.goldPrimary : .white.opacity(0.6))
+            
+            Text(name)
+                .font(.system(size: 11, weight: isSelected ? .bold : .medium))
+                .foregroundColor(isSelected ? .white : .white.opacity(0.7))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(isSelected ? FocusSpaceTheme.goldPrimary.opacity(0.15) : Color.white.opacity(0.06))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(isSelected ? FocusSpaceTheme.goldPrimary.opacity(0.4) : Color.white.opacity(0.1), lineWidth: 1)
+                )
+        }
     }
 }
