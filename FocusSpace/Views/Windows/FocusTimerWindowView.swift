@@ -13,7 +13,7 @@ struct FocusTimerWindowView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 18) {
             // Window Header
-            WindowControlsHeader(windowId: "WINDOW 02 â€¢ MAIN") {
+            WindowControlsHeader(windowId: "WINDOW 02 • MAIN") {
                 HStack(spacing: 6) {
                     Circle()
                         .fill(FocusSpaceTheme.goldPrimary)
@@ -101,15 +101,39 @@ struct FocusTimerWindowView: View {
             }
             .padding(.vertical, 4)
             
-            // Duration Presets (15m, 25m, 45m, 60m)
-            HStack(spacing: 6) {
-                durationButton(mins: 15)
-                durationButton(mins: 25)
-                durationButton(mins: 45)
-                durationButton(mins: 60)
+            // Duration Presets & Steppers
+            HStack(spacing: 8) {
+                Button {
+                    adjustTimer(by: -5)
+                } label: {
+                    Image(systemName: "minus")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(.white.opacity(0.7))
+                        .frame(width: 28, height: 28)
+                        .background(Circle().fill(Color.white.opacity(0.08)))
+                }
+                .buttonStyle(.plain)
+                
+                HStack(spacing: 6) {
+                    durationButton(mins: 15)
+                    durationButton(mins: 25)
+                    durationButton(mins: 45)
+                    durationButton(mins: 60)
+                }
+                .padding(4)
+                .background(RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.35)))
+                
+                Button {
+                    adjustTimer(by: 5)
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(.white.opacity(0.7))
+                        .frame(width: 28, height: 28)
+                        .background(Circle().fill(Color.white.opacity(0.08)))
+                }
+                .buttonStyle(.plain)
             }
-            .padding(4)
-            .background(RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.35)))
             
             // Focused Task Card
             HStack(spacing: 12) {
@@ -292,5 +316,13 @@ struct FocusTimerWindowView: View {
                 }
         }
         .buttonStyle(.plain)
+    }
+    
+    private func adjustTimer(by deltaMinutes: Int) {
+        let current = store.timerPresetMinutes
+        let newDuration = max(5, min(120, current + deltaMinutes))
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            store.setDuration(minutes: newDuration)
+        }
     }
 }
