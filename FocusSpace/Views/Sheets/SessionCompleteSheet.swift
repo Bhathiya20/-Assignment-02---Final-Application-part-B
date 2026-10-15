@@ -36,13 +36,54 @@ struct SessionCompleteSheet: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 16)
             
+            // Session Metrics Recap Card
+            HStack(spacing: 16) {
+                VStack(spacing: 2) {
+                    Text("DURATION")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(.white.opacity(0.45))
+                    Text("\(store.timerPresetMinutes)m")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(FocusSpaceTheme.goldPrimary)
+                }
+                .frame(maxWidth: .infinity)
+                
+                Divider()
+                    .frame(height: 24)
+                    .background(Color.white.opacity(0.12))
+                
+                VStack(spacing: 2) {
+                    Text("TASK")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(.white.opacity(0.45))
+                    Text(store.focusedTask?.title ?? "Deep Focus")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 14)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white.opacity(0.04))
+                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.08), lineWidth: 1))
+            )
+            
+            // Break Selection Buttons
             VStack(spacing: 10) {
-                Button {
-                    store.startBreak(minutes: 5)
-                    dismiss()
-                } label: {
-                    Text("Start 5m Break")
-                        .font(.system(size: 13, weight: .bold))
+                HStack(spacing: 10) {
+                    Button {
+                        store.startBreak(minutes: 5)
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "cup.and.saucer.fill")
+                                .font(.system(size: 12))
+                            Text("5m Break")
+                                .font(.system(size: 13, weight: .bold))
+                        }
                         .foregroundColor(FocusSpaceTheme.charcoal900)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
@@ -50,29 +91,46 @@ struct SessionCompleteSheet: View {
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
                                 .fill(FocusSpaceTheme.goldGradient)
                         )
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Button {
+                        store.startBreak(minutes: 15)
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "figure.walk")
+                                .font(.system(size: 12))
+                            Text("15m Walk")
+                                .font(.system(size: 13, weight: .bold))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(Color.white.opacity(0.1))
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.15), lineWidth: 1))
+                        )
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
                 
                 Button {
                     dismiss()
                 } label: {
-                    Text("Done")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.85))
+                    Text("Skip Break & Return")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 11)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.white.opacity(0.08))
-                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.12), lineWidth: 1))
-                        )
+                        .padding(.vertical, 8)
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.top, 12)
+            .padding(.top, 6)
         }
         .padding(28)
-        .frame(width: 380)
+        .frame(width: 400)
         .visionWindowStyle(isMainFocus: true)
     }
 }
