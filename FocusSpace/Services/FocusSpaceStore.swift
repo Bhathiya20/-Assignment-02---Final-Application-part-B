@@ -12,7 +12,7 @@ import Combine
 @Observable
 final class FocusSpaceStore {
     // MARK: - Navigation View State
-    var activeViewMode: WorkspaceViewMode = .spatialCanvas
+    var activeViewMode: WorkspaceViewMode = .dashboard
     var isAddTaskSheetPresented: Bool = false
     var isSessionCompleteSheetPresented: Bool = false
     var isSettingsSheetPresented: Bool = false
