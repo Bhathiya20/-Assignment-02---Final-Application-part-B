@@ -13,9 +13,13 @@ struct AddTaskSheet: View {
     
     @State private var taskTitle: String = ""
     @State private var selectedCategory: String = "University"
+    @State private var selectedPriority: String = "Medium"
+    @State private var estimatedMinutes: Int = 25
     @State private var notes: String = ""
     
     let categories = ["University", "Study", "Development", "Professional"]
+    let priorities = ["Low", "Medium", "High"]
+    let durations = [15, 25, 45, 60]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -60,31 +64,93 @@ struct AddTaskSheet: View {
                     )
             }
             
-            // Category Selector
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Category")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white.opacity(0.7))
-                
-                HStack(spacing: 8) {
-                    ForEach(categories, id: \.self) { cat in
-                        Button {
-                            selectedCategory = cat
-                        } label: {
-                            Text(cat)
-                                .font(.system(size: 12, weight: selectedCategory == cat ? .bold : .medium))
-                                .foregroundColor(selectedCategory == cat ? FocusSpaceTheme.charcoal900 : .white.opacity(0.7))
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background {
-                                    if selectedCategory == cat {
-                                        Capsule().fill(FocusSpaceTheme.goldPrimary)
-                                    } else {
-                                        Capsule().fill(Color.white.opacity(0.08))
+            // Category & Priority Grid
+            HStack(alignment: .top, spacing: 16) {
+                // Category Selector
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Category")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    HStack(spacing: 6) {
+                        ForEach(categories, id: \.self) { cat in
+                            Button {
+                                selectedCategory = cat
+                            } label: {
+                                Text(cat)
+                                    .font(.system(size: 11, weight: selectedCategory == cat ? .bold : .medium))
+                                    .foregroundColor(selectedCategory == cat ? FocusSpaceTheme.charcoal900 : .white.opacity(0.7))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 6)
+                                    .background {
+                                        if selectedCategory == cat {
+                                            Capsule().fill(FocusSpaceTheme.goldPrimary)
+                                        } else {
+                                            Capsule().fill(Color.white.opacity(0.08))
+                                        }
                                     }
-                                }
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            
+            // Priority & Estimated Time
+            HStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Priority")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    HStack(spacing: 6) {
+                        ForEach(priorities, id: \.self) { prio in
+                            Button {
+                                selectedPriority = prio
+                            } label: {
+                                Text(prio)
+                                    .font(.system(size: 11, weight: selectedPriority == prio ? .bold : .medium))
+                                    .foregroundColor(selectedPriority == prio ? FocusSpaceTheme.charcoal900 : .white.opacity(0.7))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 6)
+                                    .background {
+                                        if selectedPriority == prio {
+                                            Capsule().fill(FocusSpaceTheme.goldPrimary)
+                                        } else {
+                                            Capsule().fill(Color.white.opacity(0.08))
+                                        }
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Est. Duration")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    HStack(spacing: 6) {
+                        ForEach(durations, id: \.self) { mins in
+                            Button {
+                                estimatedMinutes = mins
+                            } label: {
+                                Text("\(mins)m")
+                                    .font(.system(size: 11, weight: estimatedMinutes == mins ? .bold : .medium))
+                                    .foregroundColor(estimatedMinutes == mins ? FocusSpaceTheme.charcoal900 : .white.opacity(0.7))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 6)
+                                    .background {
+                                        if estimatedMinutes == mins {
+                                            Capsule().fill(FocusSpaceTheme.goldPrimary)
+                                        } else {
+                                            Capsule().fill(Color.white.opacity(0.08))
+                                        }
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                 }
             }
