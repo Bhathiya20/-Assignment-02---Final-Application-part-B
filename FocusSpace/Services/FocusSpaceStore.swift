@@ -293,6 +293,36 @@ final class FocusSpaceStore {
         tasks.remove(atOffsets: offsets)
     }
     
+    // MARK: - Extended Productivity Calculations & Presets
+    var autoStartBreak: Bool = true
+    var ambientSoundIndex: Int = 0
+    let ambientSoundOptions: [String] = ["Rainfall", "White Noise", "Forest Echoes", "Coffee Shop", "Mute"]
+    
+    var focusPresets: [FocusPreset] = [
+        FocusPreset(name: "Sprint", minutes: 15, breakMinutes: 3, iconName: "bolt.fill"),
+        FocusPreset(name: "Standard", minutes: 25, breakMinutes: 5, iconName: "timer"),
+        FocusPreset(name: "Deep Work", minutes: 45, breakMinutes: 10, iconName: "brain.head.profile"),
+        FocusPreset(name: "Ultra Focus", minutes: 60, breakMinutes: 15, iconName: "flame.fill")
+    ]
+    
+    func tasksByPriority(_ priority: TaskPriority) -> [TaskItem] {
+        tasks.filter { $0.priority == priority }
+    }
+    
+    func tasksByCategory(_ category: String) -> [TaskItem] {
+        tasks.filter { $0.category.lowercased() == category.lowercased() }
+    }
+    
+    var totalFocusMinutesThisWeek: Int {
+        Int(dailyMetrics.reduce(0.0) { $0 + $1.hours } * 60)
+    }
+    
+    var weeklyGoalCompletionRate: Double {
+        let weeklyTargetHours = 20.0
+        let totalHours = dailyMetrics.reduce(0.0) { $0 + $1.hours }
+        return min(max(totalHours / weeklyTargetHours, 0.0), 1.0)
+    }
+
     func clearHistory() {
         recentSessions.removeAll()
         todaySessionsCount = 0
